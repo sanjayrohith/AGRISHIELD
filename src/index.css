@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar for future use */
+    --sidebar-background: 120 20% 97%;
+    --sidebar-foreground: 120 30% 15%;
+    --sidebar-primary: 142 76% 36%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 120 15% 94%;
+    --sidebar-accent-foreground: 120 30% 15%;
+    --sidebar-border: 120 20% 88%;
+    --sidebar-ring: 142 76% 36%;
+  }
+
+  .dark {
+    --background: 120 30% 8%;
+    --foreground: 120 20% 95%;
+
+    --card: 120 25% 12%;
+    --card-foreground: 120 20% 95%;
+
+    --popover: 120 25% 12%;
+    --popover-foreground: 120 20% 95%;
+
+    --primary: 142 70% 45%;
+    --primary-foreground: 120 30% 8%;
+    --primary-hover: 142 70% 40%;
+
+    --secondary: 120 20% 20%;
+    --secondary-foreground: 120 20% 85%;
+
+    --accent: 217 85% 65%;
+    --accent-foreground: 120 30% 8%;
+
+    --warning: 38 85% 55%;
+    --warning-foreground: 38 20% 15%;
+
+    --success: 158 60% 55%;
+    --success-foreground: 120 30% 8%;
+
+    --danger: 24 90% 58%;
+    --danger-foreground: 0 0% 98%;
+
+    --muted: 120 20% 18%;
+    --muted-foreground: 120 15% 65%;
+
+    --destructive: 0 80% 65%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 120 20% 25%;
+    --input: 120 20% 22%;
+    --ring: 142 70% 45%;
+
+    --sidebar-background: 120 25% 10%;
+    --sidebar-foreground: 120 20% 90%;
+    --sidebar-primary: 142 70% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 120 20% 15%;
+    --sidebar-accent-foreground: 120 20% 90%;
+    --sidebar-border: 120 20% 20%;
+    --sidebar-ring: 142 70% 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling for the app */
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Chat message bubbles */
+  .message-bot {
+    @apply bg-card text-card-foreground rounded-3xl rounded-bl-sm p-4 shadow-sm border-l-4 border-primary;
+  }
+
+  .message-user {
+    @apply bg-gradient-to-r from-primary to-success text-primary-foreground rounded-3xl rounded-br-sm p-4 shadow-sm;
+  }
+
+  /* Agricultural card styling */
+  .farm-card {
+    @apply bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1;
+  }
+
+  /* Gradient backgrounds */
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-earth {
+    background: var(--gradient-earth);
+  }
+
+  .gradient-sky {
+    background: var(--gradient-sky);
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  /* Interactive elements */
+  .btn-hover {
+    @apply transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+
+  /* Loading shimmer */
+  .shimmer {
+    @apply bg-gradient-to-r from-muted via-background to-muted animate-pulse;
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Weather widget styling */
+  .weather-card {
+    @apply bg-gradient-to-br from-accent/10 to-accent/5 backdrop-blur-sm border border-accent/20 rounded-xl p-4;
+  }
+
+  /* Form enhancements */
+  .form-field {
+    @apply relative;
+  }
+
+  .form-field input:focus + label,
+  .form-field input:not(:placeholder-shown) + label {
+    @apply -translate-y-6 text-sm text-primary;
+  }
+
+  .form-field label {
+    @apply absolute left-3 top-3 transition-all duration-300 pointer-events-none text-muted-foreground;
+  }
+}
