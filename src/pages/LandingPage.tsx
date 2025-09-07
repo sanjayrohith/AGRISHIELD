@@ -112,8 +112,8 @@ export function LandingPage({ onGetStarted, onChatClick, userData }: LandingPage
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
               <Button 
                 size="xl" 
-                variant="hero"
-                className="btn-hover group"
+                variant="ghost"
+                className="btn-glass-primary group relative overflow-hidden"
                 onClick={onChatClick}
               >
                 <MessageCircle className="h-5 w-5 mr-2" />
@@ -123,8 +123,8 @@ export function LandingPage({ onGetStarted, onChatClick, userData }: LandingPage
               
               <Button 
                 size="xl" 
-                variant="outline"
-                className="border-white/30 text-white hover:bg-white/10"
+                variant="ghost"
+                className="btn-glass-secondary relative overflow-hidden"
                 onClick={onGetStarted}
               >
                 Learn More

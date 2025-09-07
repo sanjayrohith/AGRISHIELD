@@ -182,4 +182,34 @@ All colors MUST be HSL.
   .form-field label {
     @apply absolute left-3 top-3 transition-all duration-300 pointer-events-none text-muted-foreground;
   }
+
+  /* Glassmorphic button styles */
+  .btn-glass-primary {
+    @apply bg-white/15 backdrop-blur-md border border-white/30 text-white shadow-lg hover:bg-white/25 hover:border-white/40 hover:text-white transition-all duration-300 hover:shadow-xl hover:scale-105;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-glass-secondary {
+    @apply bg-white/10 backdrop-blur-md border border-white/25 text-white shadow-lg hover:bg-white/20 hover:border-white/35 hover:text-white transition-all duration-300 hover:shadow-xl hover:scale-105;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.08);
+  }
+
+  /* Enhanced glassmorphic effects */
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/10 border border-white/20 shadow-lg;
+    backdrop-filter: blur(12px);
+  }
+
+  .glass-hover {
+    @apply transition-all duration-300 hover:bg-white/20 hover:border-white/30 hover:shadow-xl hover:scale-105;
+  }
+
+  /* Additional glassmorphic utilities */
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-lg border border-white/10 shadow-2xl rounded-xl;
+    backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  }
 }
