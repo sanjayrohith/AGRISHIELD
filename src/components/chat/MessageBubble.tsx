@@ -1,138 +1,58 @@
-import { Calendar, MapPin, Thermometer, Droplets, TrendingUp, AlertTriangle } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface Message {
   id: string;
   text: string;
   isBot: boolean;
   timestamp: Date;
-  type?: 'text' | 'recommendation' | 'weather';
-  data?: any;
 }
 
-interface MessageBubbleProps {
-  message: Message;
-}
+// A simple function to format the time (e.g., 01:42 PM)
+const formatTime = (date: Date) => {
+  return date.toLocaleTimeString('en-US', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
 
-export function MessageBubble({ message }: MessageBubbleProps) {
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-IN', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: true 
-    });
-  };
+export function MessageBubble({ message }: { message: Message }) {
+  const { text, isBot, timestamp } = message;
 
-  const renderMessageContent = () => {
-    // Split message into lines and format them
-    const lines = message.text.split('\n');
-    
+  if (isBot) {
     return (
-      <div className="space-y-2">
-        {lines.map((line, index) => {
-          // Handle headers (lines starting with **)
-          if (line.includes('**')) {
-            const formattedLine = line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-            return (
-              <div 
-                key={index}
-                className="font-semibold text-sm"
-                dangerouslySetInnerHTML={{ __html: formattedLine }}
-              />
-            );
-          }
-          
-          // Handle bullet points
-          if (line.startsWith('•') || line.startsWith('-')) {
-            return (
-              <div key={index} className="flex items-start space-x-2 text-sm">
-                <span className="text-primary mt-1 text-xs">•</span>
-                <span>{line.substring(1).trim()}</span>
-              </div>
-            );
-          }
-          
-          // Handle emoji lines (weather, status indicators)
-          if (line.match(/^[🌾🥬📅📊💰⚠️☔🌧️🌡️]/)) {
-            return (
-              <div key={index} className="flex items-center space-x-2 text-sm font-medium">
-                <span>{line}</span>
-              </div>
-            );
-          }
-          
-          // Regular text
-          if (line.trim()) {
-            return (
-              <p key={index} className="text-sm leading-relaxed">
-                {line}
-              </p>
-            );
-          }
-          
-          return null;
-        })}
-      </div>
-    );
-  };
-
-  const getMessageIcon = () => {
-    switch (message.type) {
-      case 'weather':
-        return <Thermometer className="h-4 w-4" />;
-      case 'recommendation':
-        return <TrendingUp className="h-4 w-4" />;
-      default:
-        return null;
-    }
-  };
-
-  const getMessageBadge = () => {
-    switch (message.type) {
-      case 'weather':
-        return <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-xs bg-accent/20 text-accent">Weather</Badge>;
-      case 'recommendation':
-        return <Badge variant="secondary" className="ml-2 h-5 px-1.5 text-xs bg-success/20 text-success">Crops</Badge>;
-      default:
-        return null;
-    }
-  };
-
-  if (message.isBot) {
-    return (
-      <div className="flex items-start space-x-3 animate-fade-in">
-        <div className="h-8 w-8 rounded-full bg-gradient-primary flex items-center justify-center flex-shrink-0">
-          {getMessageIcon() || <span className="text-xs font-bold text-primary-foreground">AI</span>}
-        </div>
-        <div className="flex-1 space-y-1">
-          <div className="flex items-center space-x-2">
-            <span className="text-xs font-medium text-muted-foreground">Farm Assistant</span>
-            {getMessageBadge()}
-            <span className="text-xs text-muted-foreground">{formatTime(message.timestamp)}</span>
+      <div className="flex items-start gap-3">
+        <Avatar className="h-8 w-8">
+          <AvatarFallback className="bg-primary text-primary-foreground text-xs font-bold">
+            AI
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex flex-col items-start">
+          <div className="max-w-md rounded-lg rounded-tl-none bg-muted p-3">
+            {/* Using whitespace-pre-wrap to respect newlines and formatting from the API */}
+            <p className="text-sm text-foreground whitespace-pre-wrap">{text}</p>
           </div>
-          <div className="message-bot max-w-lg">
-            {renderMessageContent()}
-          </div>
+          <span className="mt-1 text-xs text-muted-foreground">{formatTime(timestamp)}</span>
         </div>
       </div>
     );
   }
 
+  // --- This is the User's Message Bubble ---
   return (
-    <div className="flex items-start space-x-3 justify-end animate-fade-in">
-      <div className="flex-1 space-y-1 text-right">
-        <div className="flex items-center justify-end space-x-2">
-          <span className="text-xs text-muted-foreground">{formatTime(message.timestamp)}</span>
-          <span className="text-xs font-medium text-muted-foreground">You</span>
+    <div className="flex items-start gap-3 justify-end">
+      <div className="flex flex-col items-end">
+        {/* ✅ This is the main change: Added background and text colors for visibility */}
+        <div className="max-w-md rounded-lg rounded-tr-none bg-primary text-primary-foreground p-3">
+          <p className="text-sm">{text}</p>
         </div>
-        <div className="message-user max-w-lg ml-auto">
-          <p className="text-sm leading-relaxed">{message.text}</p>
-        </div>
+        <span className="mt-1 text-xs text-muted-foreground">{formatTime(timestamp)}</span>
       </div>
-      <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center flex-shrink-0">
-        <span className="text-xs font-bold text-secondary-foreground">R</span>
-      </div>
+       <Avatar className="h-8 w-8">
+          <AvatarFallback className="bg-secondary text-secondary-foreground text-xs font-bold">
+            R
+          </AvatarFallback>
+        </Avatar>
     </div>
   );
 }
