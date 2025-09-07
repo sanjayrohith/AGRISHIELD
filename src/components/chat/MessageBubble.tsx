@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { AgrishieldLogo } from "@/components/ui/AgrishieldLogo";
 
 interface Message {
   id: string;
@@ -23,8 +24,8 @@ export function MessageBubble({ message }: { message: Message }) {
     return (
       <div className="flex items-start gap-3">
         <Avatar className="h-8 w-8">
-          <AvatarFallback className="bg-primary text-primary-foreground text-xs font-bold">
-            AI
+          <AvatarFallback className="bg-primary text-primary-foreground p-1">
+            <AgrishieldLogo size={20} />
           </AvatarFallback>
         </Avatar>
         <div className="flex flex-col items-start">

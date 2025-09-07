@@ -15,7 +15,6 @@ export function ChatPage({ onBackToHome, onDashboardClick, userData }: ChatPageP
         onChatClick={() => {}}
         onDashboardClick={onDashboardClick}
         onWeatherClick={() => {}}
-        userData={userData}
       />
       
       <main className="container py-6">

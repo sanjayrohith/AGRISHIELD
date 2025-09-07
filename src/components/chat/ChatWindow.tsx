@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { AgrishieldLogo } from "@/components/ui/AgrishieldLogo";
 import { Send, Paperclip } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -92,8 +93,8 @@ export function ChatWindow() {
       {/* Chat Header */}
       <div className="flex items-center justify-between p-4 border-b">
         <div className="flex items-center space-x-3">
-          <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center">
-            <span className="text-lg font-bold text-primary-foreground">AI</span>
+          <div className="h-10 w-10 rounded-full bg-primary flex items-center justify-center p-1">
+            <AgrishieldLogo size={28} />
           </div>
           <div>
             <h3 className="font-semibold text-card-foreground">Farm Assistant</h3>
@@ -132,8 +133,8 @@ export function ChatWindow() {
         ))}
         {isTyping && (
           <div className="flex items-center space-x-2">
-             <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center">
-              <span className="text-xs font-bold">AI</span>
+             <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center p-1">
+              <AgrishieldLogo size={20} />
             </div>
             <div className="p-3 rounded-lg bg-muted">
               <div className="flex space-x-1">

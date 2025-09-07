@@ -16,15 +16,9 @@ interface HeaderProps {
   onChatClick?: () => void;
   onDashboardClick?: () => void;
   onWeatherClick?: () => void;
-  userData?: {
-    name: string;
-    email: string;
-    language: string;
-    region: string;
-  };
 }
 
-export function Header({ onChatClick, onDashboardClick, onWeatherClick, userData }: HeaderProps) {
+export function Header({ onChatClick, onDashboardClick, onWeatherClick }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigationItems = [
@@ -87,7 +81,7 @@ export function Header({ onChatClick, onDashboardClick, onWeatherClick, userData
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/api/placeholder/32/32" alt="Farmer" />
                   <AvatarFallback className="bg-primary text-primary-foreground">
-                    {userData?.name ? userData.name.split(' ').map(n => n[0]).join('').toUpperCase() : <User className="h-4 w-4" />}
+                    <User className="h-4 w-4" />
                   </AvatarFallback>
                 </Avatar>
               </Button>
@@ -95,9 +89,9 @@ export function Header({ onChatClick, onDashboardClick, onWeatherClick, userData
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">{userData?.name || "Guest User"}</p>
+                  <p className="text-sm font-medium leading-none">Rajesh Kumar</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    {userData?.email || "guest@example.com"}
+                    rajesh.farmer@example.com
                   </p>
                 </div>
               </DropdownMenuLabel>
