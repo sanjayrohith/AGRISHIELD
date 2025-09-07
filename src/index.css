@@ -212,4 +212,22 @@ All colors MUST be HSL.
     backdrop-filter: blur(16px);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
+
+  /* Glassmorphic navigation bar */
+  .glass-nav {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 shadow-2xl;
+    backdrop-filter: blur(20px);
+    box-shadow: 
+      0 8px 32px rgba(255, 255, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .glass-nav-item {
+    @apply text-white/90 hover:text-white hover:bg-white/15 transition-all duration-300 rounded-xl;
+    backdrop-filter: blur(8px);
+  }
+
+  .glass-nav-item:hover {
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+  }
 }
