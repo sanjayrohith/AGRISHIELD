@@ -23,7 +23,8 @@ const initialMessages: Message[] = [
   }
 ];
 
-export function ChatWindow() {
+// 1. Update component props to accept the 'location'
+export function ChatWindow({ location }: { location: any }) {
   const [messages, setMessages] = useState<Message[]>(initialMessages);
   const [inputValue, setInputValue] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -56,9 +57,12 @@ export function ChatWindow() {
       const apiResponse = await fetch('http://localhost:3001/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        // 2. Send location and current date to the backend
         body: JSON.stringify({
           message: text.trim(),
           language: language,
+          location: location,
+          date: new Date().toISOString(),
         }),
       });
 
@@ -162,10 +166,10 @@ export function ChatWindow() {
                   handleSendMessage(inputValue);
                 }
               }}
-              className="pr-12"
+              className="pr-12 bg-white/10 border-white/20 text-white placeholder:text-white/60 focus:ring-white/50"
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center space-x-1">
-              <Button variant="ghost" size="icon" className="h-7 w-7">
+              <Button variant="ghost" size="icon" className="h-7 w-7 text-white/80 hover:text-white">
                 <Paperclip className="h-4 w-4" />
               </Button>
             </div>
@@ -173,6 +177,7 @@ export function ChatWindow() {
           <Button 
             onClick={() => handleSendMessage(inputValue)}
             disabled={!inputValue.trim() || isTyping}
+            className="bg-white/20 border-white/30 text-white hover:bg-white/30"
           >
             <Send className="h-4 w-4" />
           </Button>

@@ -1,7 +1,8 @@
-import { Header } from "@/components/layout/Header";
-import { ChatWindow } from "@/components/chat/ChatWindow";
-import { WeatherWidget } from "@/components/dashboard/WeatherWidget";
-import heroImage from "@/assets/hero-farm.jpg";
+import { useState, useEffect } from "react";
+import { Header } from "../components/layout/Header";
+import { ChatWindow } from "../components/chat/ChatWindow";
+import { WeatherWidget } from "../components/dashboard/WeatherWidget";
+import heroImage from "../assets/hero-farm.jpg"; // Corrected path assumption
 
 interface ChatPageProps {
   readonly onBackToHome: () => void;
@@ -10,6 +11,50 @@ interface ChatPageProps {
 }
 
 export function ChatPage({ onBackToHome, onDashboardClick, userData }: ChatPageProps) {
+  // --- Logic for fetching location and weather ---
+  const [location, setLocation] = useState<{ lat: number; lon: number } | null>(null);
+  const [weatherData, setWeatherData] = useState<any | null>(null);
+  const [isLoadingWeather, setIsLoadingWeather] = useState(true);
+  const [weatherError, setWeatherError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setWeatherError("Geolocation is not supported by your browser.");
+      setIsLoadingWeather(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const currentLocation = { lat: latitude, lon: longitude };
+        setLocation(currentLocation);
+
+        const fetchWeatherData = async () => {
+          const API_KEY = import.meta.env.VITE_WEATHERAPI_KEY;
+          const API_URL = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${latitude},${longitude}&days=5&alerts=yes`;
+          
+          try {
+            const response = await fetch(API_URL);
+            if (!response.ok) throw new Error("Could not fetch weather data.");
+            const data = await response.json();
+            setWeatherData(data); 
+          } catch (err: any) {
+            setWeatherError(err.message);
+          } finally {
+            setIsLoadingWeather(false);
+          }
+        };
+
+        fetchWeatherData();
+      },
+      () => {
+        setWeatherError("Location access denied.");
+        setIsLoadingWeather(false);
+      }
+    );
+  }, []);
+
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Farm Background */}
@@ -45,6 +90,7 @@ export function ChatPage({ onBackToHome, onDashboardClick, userData }: ChatPageP
                   >
                     <span className="text-sm font-medium">🏠 Back to Home</span>
                   </button>
+                  {/* Other buttons remain the same */}
                   <button className="w-full text-left p-3 rounded-lg bg-white/10 border border-white/20 hover:bg-white/20 transition-all duration-300 hover:shadow-md text-white">
                     <span className="text-sm font-medium">🌾 My Crops</span>
                   </button>
@@ -70,13 +116,19 @@ export function ChatPage({ onBackToHome, onDashboardClick, userData }: ChatPageP
                 Get expert advice on flood-resistant crops, weather patterns, and farming strategies.
               </p>
             </div>
-            <ChatWindow />
+            {/* Pass location data to the ChatWindow */}
+            <ChatWindow location={location} />
           </div>
 
           {/* Right Sidebar - Weather & Info */}
           <div className="lg:col-span-1">
             <div className="sticky top-24">
-              <WeatherWidget />
+              {/* Pass weather data and status to the WeatherWidget */}
+              <WeatherWidget 
+                weatherData={weatherData}
+                isLoading={isLoadingWeather}
+                error={weatherError}
+              />
             </div>
           </div>
         </div>
