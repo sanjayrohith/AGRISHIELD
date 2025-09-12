@@ -2,7 +2,8 @@
 
 <div align="center">
 
-![AgriShield Logo](public/agrishield-logo.png)
+![AgriShield Screenshot 1](public/englishchat.jpeg)
+![AgriShield Screenshot 2](public/tamilchat.jpeg)
 
 **Smart Agricultural Platform for Flood-Resilient Farming**
 
