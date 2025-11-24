@@ -92,18 +92,18 @@ export function Header({ onChatClick, onDashboardClick, onWeatherClick }: Header
                 <DropdownMenuContent className="w-56" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">Rajesh Kumar</p>
-                      <p className="text-xs leading-none text-muted-foreground">
+                      <p className="text-sm font-medium leading-none text-white">Rajesh Kumar</p>
+                      <p className="text-xs leading-none text-white/70">
                         rajesh.farmer@example.com
                       </p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Profile Settings</DropdownMenuItem>
-                  <DropdownMenuItem>Farm Details</DropdownMenuItem>
-                  <DropdownMenuItem>Language: हिंदी</DropdownMenuItem>
+                  <DropdownMenuItem className="text-white hover:text-white">Profile Settings</DropdownMenuItem>
+                  <DropdownMenuItem className="text-white hover:text-white">Farm Details</DropdownMenuItem>
+                  <DropdownMenuItem className="text-white hover:text-white">Language: हिंदी</DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>Sign out</DropdownMenuItem>
+                  <DropdownMenuItem className="text-white hover:text-white">Sign out</DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
 

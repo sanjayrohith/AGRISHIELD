@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { ArrowRight, Zap, Cloud, TrendingUp, Users, Star, CheckCircle, MessageCircle, BarChart3 } from "lucide-react";
+import { motion } from "framer-motion"; // Animation library
+import { ArrowRight, Cloud, TrendingUp, CheckCircle, MessageCircle, BarChart3, Sun, Droplets } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,6 +14,21 @@ interface LandingPageProps {
   userData?: any;
 }
 
+// Animation variants for cleaner code
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
+
 export function LandingPage({ onGetStarted, onChatClick, userData }: LandingPageProps) {
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
 
@@ -21,25 +37,29 @@ export function LandingPage({ onGetStarted, onChatClick, userData }: LandingPage
       icon: MessageCircle,
       title: "AI-Powered Chat Assistant",
       description: "24/7 farming expert in your pocket. Get instant advice on crops, weather, and planting schedules in Hindi and English.",
-      color: "text-primary"
+      color: "text-blue-500",
+      bg: "bg-blue-500/10"
     },
     {
       icon: Cloud,
       title: "Weather Analysis",
       description: "Real-time weather monitoring with flood risk assessment. Plan your farming activities with accurate forecasts.",
-      color: "text-accent"
+      color: "text-sky-500",
+      bg: "bg-sky-500/10"
     },
     {
       icon: TrendingUp,
       title: "Crop Recommendations",
       description: "Smart crop selection based on your soil, climate, and flood patterns. Maximize yield with resilient varieties.",
-      color: "text-success"
+      color: "text-green-500",
+      bg: "bg-green-500/10"
     },
     {
       icon: BarChart3,
       title: "Yield Analytics",
       description: "Track your farm performance with detailed analytics. Compare seasons and optimize your farming strategy.",
-      color: "text-warning"
+      color: "text-amber-500",
+      bg: "bg-amber-500/10"
     }
   ];
 
@@ -67,272 +87,264 @@ export function LandingPage({ onGetStarted, onChatClick, userData }: LandingPage
     }
   ];
 
-  const benefits = [
-    "Reduce crop loss by up to 40% with flood-resistant varieties",
-    "Get weather alerts 5 days in advance",
-    "24/7 farming support in Hindi & English",
-    "Proven techniques from 10,000+ successful farmers",
-    "Free crop market price updates",
-    "Government scheme notifications"
-  ];
-
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-sans">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center overflow-hidden">
+        {/* Background Image with Parallax feel */}
         <div 
-          className="absolute inset-0 z-0"
+          className="absolute inset-0 z-0 transition-transform duration-1000 scale-105"
           style={{
             backgroundImage: `url(${heroImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            filter: 'brightness(0.4)'
+            filter: 'brightness(0.35)'
           }}
         />
-        <div className="absolute inset-0 bg-gradient-hero z-10" />
+        {/* Mesh Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80 z-10" />
         
         <div className="container relative z-20 py-20">
-          <div className="max-w-4xl mx-auto text-center text-white space-y-8">
-            <Badge variant="secondary" className="bg-white/20 text-white border-white/30 mb-4">
-              🌾 AI-Powered Farming Assistant
-            </Badge>
+          <motion.div 
+            initial="initial"
+            animate="animate"
+            variants={staggerContainer}
+            className="max-w-4xl mx-auto text-center text-white space-y-8"
+          >
+            <motion.div variants={fadeIn} className="flex justify-center">
+              <Badge variant="secondary" className="bg-green-500/20 text-green-100 border-green-500/30 backdrop-blur-md px-4 py-1.5 mb-4 hover:bg-green-500/30 transition-colors">
+                🌾 AI-Powered Farming Assistant
+              </Badge>
+            </motion.div>
             
-            <h1 className="text-4xl md:text-6xl font-bold font-display leading-tight">
-              Smart Farming for
-              <span className="block bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
+            <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl font-bold tracking-tight leading-tight">
+              Smart Farming for <br />
+              <span className="bg-gradient-to-r from-green-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
                 Flood-Resilient Agriculture
               </span>
-            </h1>
+            </motion.h1>
             
-            <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+            <motion.p variants={fadeIn} className="text-xl md:text-2xl text-gray-200 max-w-3xl mx-auto leading-relaxed font-light">
               Join 10,000+ farmers using AI to select flood-resistant crops, analyze weather patterns, 
               and maximize yield even in challenging conditions.
-            </p>
+            </motion.p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
+            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8">
               <Button 
-                size="xl" 
-                variant="ghost"
-                className="btn-glass-primary group relative overflow-hidden"
+                size="lg" 
+                className="bg-green-600 hover:bg-green-500 text-white rounded-full h-14 px-8 text-lg font-medium shadow-[0_0_20px_-5px_rgba(22,163,74,0.5)] transition-all hover:scale-105"
                 onClick={onChatClick}
               >
                 <MessageCircle className="h-5 w-5 mr-2" />
                 Start Chat with AI
-                <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
               
               <Button 
-                size="xl" 
-                variant="ghost"
-                className="btn-glass-secondary relative overflow-hidden"
+                size="lg" 
+                variant="outline"
+                className="border-white/30 bg-white/5 text-white hover:bg-white/10 rounded-full h-14 px-8 text-lg backdrop-blur-sm transition-all hover:scale-105"
                 onClick={onGetStarted}
               >
                 Learn More
               </Button>
-            </div>
+            </motion.div>
 
-            <div className="flex items-center justify-center space-x-8 pt-8 text-white/80">
-              <div className="text-center">
-                <div className="text-2xl font-bold">10,000+</div>
-                <div className="text-sm">Active Farmers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold">40%</div>
-                <div className="text-sm">Less Crop Loss</div>
-              </div>
-              <div className="text-center">
-                <div className="text-2xl font-bold">24/7</div>
-                <div className="text-sm">AI Support</div>
-              </div>
-            </div>
-          </div>
+            {/* Floating Live Stats - Adds "Tech" feel */}
+            <motion.div 
+              variants={fadeIn}
+              className="absolute hidden lg:block top-1/2 right-10 bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-2xl animate-pulse-slow"
+            >
+               <div className="flex items-center gap-3 mb-2">
+                 <div className="bg-yellow-500/20 p-2 rounded-full"><Sun className="h-5 w-5 text-yellow-400" /></div>
+                 <div className="text-left">
+                   <p className="text-xs text-gray-400">Live Weather</p>
+                   <p className="text-sm font-bold">Sunny, 32°C</p>
+                 </div>
+               </div>
+               <div className="flex items-center gap-3">
+                 <div className="bg-blue-500/20 p-2 rounded-full"><Droplets className="h-5 w-5 text-blue-400" /></div>
+                 <div className="text-left">
+                   <p className="text-xs text-gray-400">Humidity</p>
+                   <p className="text-sm font-bold">68% (Optimum)</p>
+                 </div>
+               </div>
+            </motion.div>
+
+            <motion.div variants={fadeIn} className="flex items-center justify-center space-x-8 sm:space-x-16 pt-12 text-white/80 border-t border-white/10 mt-12 max-w-2xl mx-auto">
+              {[
+                { val: "10k+", label: "Active Farmers" },
+                { val: "40%", label: "Less Crop Loss" },
+                { val: "24/7", label: "AI Support" }
+              ].map((stat, i) => (
+                <div key={i} className="text-center">
+                  <div className="text-3xl font-bold text-white">{stat.val}</div>
+                  <div className="text-sm text-green-200/70 font-medium uppercase tracking-wider">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-muted/30">
-        <div className="container">
+      <section className="py-24 bg-slate-50">
+        <div className="container px-4 mx-auto">
           <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">
+            <Badge variant="outline" className="mb-4 border-green-600 text-green-700">
               🚀 Core Features
             </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-              Everything You Need for Smart Farming
+            <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">
+              Everything You Need for <span className="text-green-600">Smart Farming</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              Comprehensive tools designed specifically for Indian farmers dealing with flood challenges
+            <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+              Comprehensive tools designed specifically for Indian farmers dealing with flood challenges.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card 
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
                 key={index}
-                className={`farm-card cursor-pointer transition-all duration-300 ${
-                  hoveredFeature === index ? 'scale-105 shadow-lg' : ''
-                }`}
-                onMouseEnter={() => setHoveredFeature(index)}
-                onMouseLeave={() => setHoveredFeature(null)}
               >
-                <CardContent className="p-6 text-center space-y-4">
-                  <div className={`h-16 w-16 rounded-full bg-gradient-primary/10 flex items-center justify-center mx-auto`}>
-                    <feature.icon className={`h-8 w-8 ${feature.color}`} />
-                  </div>
-                  <h3 className="text-lg font-semibold">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
-                    {feature.description}
-                  </p>
-                </CardContent>
-              </Card>
+                <Card 
+                  className={`h-full border-none shadow-lg hover:shadow-xl transition-all duration-300 bg-white group relative overflow-hidden`}
+                  onMouseEnter={() => setHoveredFeature(index)}
+                  onMouseLeave={() => setHoveredFeature(null)}
+                >
+                  <div className={`absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-${feature.color.split('-')[1]}-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity`} />
+                  
+                  <CardContent className="p-8 text-center space-y-6">
+                    <div className={`h-20 w-20 rounded-2xl ${feature.bg} flex items-center justify-center mx-auto transform group-hover:scale-110 transition-transform duration-300`}>
+                      <feature.icon className={`h-10 w-10 ${feature.color}`} />
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-bold text-slate-900 mb-3">{feature.title}</h3>
+                      <p className="text-slate-500 leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20">
+      <section className="py-24 bg-white overflow-hidden">
         <div className="container">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-8"
+            >
               <div>
-                <Badge variant="secondary" className="mb-4">
+                <Badge variant="secondary" className="mb-4 bg-green-100 text-green-800">
                   ✅ Proven Results
                 </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-                  Why 10,000+ Farmers Trust AGRISHIELD
+                <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 leading-tight">
+                  Why 10,000+ Farmers <br/>Trust AGRISHIELD
                 </h2>
-                <p className="text-xl text-muted-foreground">
+                <p className="text-lg text-slate-600 leading-relaxed">
                   Our AI assistant combines traditional farming wisdom with modern technology 
                   to deliver results that matter to your livelihood.
                 </p>
               </div>
 
-              <div className="space-y-4">
-                {benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start space-x-3 animate-fade-in">
-                    <CheckCircle className="h-6 w-6 text-success flex-shrink-0 mt-0.5" />
-                    <p className="text-foreground">{benefit}</p>
-                  </div>
+              <div className="space-y-5">
+                {["Reduce crop loss by 40% with resistant varieties", "Get weather alerts 5 days in advance", "24/7 farming support in Hindi & English", "Market price updates & Gov schemes"].map((benefit, index) => (
+                  <motion.div 
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                    key={index} 
+                    className="flex items-center space-x-4"
+                  >
+                    <div className="h-8 w-8 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle className="h-5 w-5 text-green-600" />
+                    </div>
+                    <p className="text-slate-700 font-medium">{benefit}</p>
+                  </motion.div>
                 ))}
               </div>
 
               <Button 
                 size="lg" 
-                variant="hero"
-                className="btn-hover"
+                className="bg-slate-900 text-white hover:bg-slate-800 px-8 h-12 rounded-full mt-4"
                 onClick={onChatClick}
               >
                 Try AI Assistant Now
                 <ArrowRight className="h-5 w-5 ml-2" />
               </Button>
-            </div>
+            </motion.div>
 
-            <div className="grid gap-4">
-              <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+            {/* Overlapping Images Layout */}
+            <motion.div 
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative h-[500px] hidden lg:block"
+            >
+              <div className="absolute top-0 right-0 w-4/5 h-3/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white z-10 transform hover:-translate-y-2 transition-transform duration-500">
                 <img 
                   src={aiAssistantImage} 
-                  alt="AI Farming Assistant Interface"
+                  alt="AI Interface"
                   className="w-full h-full object-cover"
                 />
+                <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-4 text-white">
+                  <p className="font-mono text-xs text-green-400">AI ANALYSIS COMPLETE</p>
+                  <p className="font-bold">Crop Risk: Low</p>
+                </div>
               </div>
-              <div className="aspect-video rounded-xl overflow-hidden shadow-lg">
+              <div className="absolute bottom-0 left-0 w-4/5 h-3/5 rounded-2xl overflow-hidden shadow-2xl border-4 border-white z-0">
                 <img 
                   src={resilientCropsImage} 
-                  alt="Flood-Resilient Crops"
-                  className="w-full h-full object-cover"
+                  alt="Crops"
+                  className="w-full h-full object-cover filter brightness-90"
                 />
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-20 bg-gradient-earth">
-        <div className="container">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">
-              💬 Success Stories
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-              Real Farmers, Real Results
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              See how AGRISHIELD is transforming agriculture across India
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="farm-card">
-                <CardContent className="p-6 space-y-4">
-                  <div className="flex items-center space-x-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-warning fill-current" />
-                    ))}
-                  </div>
-                  
-                  <p className="text-muted-foreground italic">
-                    "{testimonial.text}"
-                  </p>
-                  
-                  <div className="flex items-center justify-between pt-4 border-t">
-                    <div>
-                      <p className="font-semibold text-foreground">{testimonial.name}</p>
-                      <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                    </div>
-                    <Badge variant="outline" className="text-xs">
-                      {testimonial.crop}
-                    </Badge>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+              {/* Decorative Element */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-green-500/20 rounded-full blur-3xl -z-10" />
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-primary relative overflow-hidden">
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-green-900 z-0">
+           <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '30px 30px'}}></div>
+        </div>
+        
         <div className="container relative z-10">
-          <div className="text-center text-white space-y-8">
-            <h2 className="text-3xl md:text-4xl font-bold font-display">
+          <div className="bg-green-800/50 backdrop-blur-lg rounded-3xl p-8 md:p-16 text-center border border-white/10 shadow-2xl max-w-5xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 font-display">
               Ready to Transform Your Farming?
             </h2>
-            <p className="text-xl text-white/90 max-w-2xl mx-auto">
+            <p className="text-xl text-green-100 max-w-2xl mx-auto mb-10">
               Join thousands of farmers already using AI to grow flood-resistant crops 
               and increase their yield. Start your free consultation today.
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md mx-auto">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button 
-                size="xl" 
-                variant="outline"
-                className="border-white text-white hover:bg-white hover:text-primary btn-hover w-full sm:w-auto"
+                size="lg" 
+                className="bg-white text-green-900 hover:bg-gray-100 w-full sm:w-auto h-14 px-8 text-lg font-bold"
                 onClick={onChatClick}
               >
                 <MessageCircle className="h-5 w-5 mr-2" />
                 Start Free Chat
               </Button>
-              
-              <Button 
-                size="xl" 
-                variant="secondary"
-                className="btn-hover w-full sm:w-auto"
-                onClick={onGetStarted}
-              >
-                View Dashboard
-                <ArrowRight className="h-5 w-5 ml-2" />
-              </Button>
             </div>
           </div>
-        </div>
-        
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-10 left-10 w-20 h-20 border border-white/20 rounded-full"></div>
-          <div className="absolute top-40 right-20 w-32 h-32 border border-white/20 rounded-full"></div>
-          <div className="absolute bottom-20 left-1/4 w-24 h-24 border border-white/20 rounded-full"></div>
         </div>
       </section>
     </div>
