@@ -11,8 +11,8 @@ const port = 3001;
 app.use(cors());
 app.use(express.json());
 
+// Initialize the client (API Key only)
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 const createSystemPrompt = (location, date) => {
   const formattedDate = date ? new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : 'Not available';
@@ -38,7 +38,7 @@ const createSystemPrompt = (location, date) => {
     4.  **Use Clear Formatting:** Always use bullet points (*) for lists and bold text (**) for important terms.
     5.  **Be Proactive:** End your responses by asking a follow-up question to encourage further interaction.
     ---
-    
+     
     --- CRITICAL LANGUAGE RULE ---
     You must respond ONLY in the language the user has selected. Do not mix languages.
   `;
@@ -48,27 +48,48 @@ const createSystemPrompt = (location, date) => {
 app.post('/api/chat', async (req, res) => {
   try {
     const { message, language, location, date } = req.body;
+    
+    // 1. Generate the dynamic prompt based on request data
     const dynamicSystemPrompt = createSystemPrompt(location, date);
 
-    const history = [
-      { role: "user", parts: [{ text: dynamicSystemPrompt }] },
-      { role: "model", parts: [{ text: `Understood. I will provide specific, localized advice based on the user's context without mentioning their coordinates, and I will respond only in ${language}.` }] },
-    ];
+    // 2. Initialize the model WITH the system instruction
+    // Note: If 'gemini-1.5-flash' still gives 404, try 'gemini-1.5-flash-latest'
+    const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: {
+            role: "system",
+            parts: [{ text: dynamicSystemPrompt }]
+        }
+    });
 
+    // 3. Start Chat (No need to hack history anymore)
     const chat = model.startChat({
-        history: history,
-        generationConfig: { maxOutputTokens: 1000 },
+        history: [
+            {
+                role: "user",
+                parts: [{ text: `I am an Indian Farmer. My preferred language is: ${language}.` }],
+            },
+            {
+                role: "model",
+                parts: [{ text: `Namaste! I am ready to help you in ${language}.` }],
+            },
+        ],
+        generationConfig: { 
+            maxOutputTokens: 1000,
+            temperature: 0.7, 
+        },
     });
 
     const result = await chat.sendMessage(message);
-    const response = result.response;
+    const response = await result.response;
     const text = response.text();
     
     res.json({ response: text });
 
   } catch (error) {
     console.error("Error with Gemini API:", error);
-    res.status(500).json({ error: "Failed to get response from AI" });
+    // Send the actual error message back to frontend for easier debugging
+    res.status(500).json({ error: "Failed to get response from AI", details: error.message });
   }
 });
 
